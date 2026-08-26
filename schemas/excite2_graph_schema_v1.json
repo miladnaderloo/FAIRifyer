@@ -1,0 +1,196 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.org/excite/schemas/excite2_graph_schema_v1.json",
+  "title": "EXCITE2 Graph Metadata Schema v1.0",
+  "description": "Validates the Pipeline 2 (graph-structured) metadata record produced by FAIRifyer against the EXCITE2 network's own data model (Deliverable D4.2, Appendix I).",
+  "type": "object",
+  "required": ["nodes", "edges"],
+  "properties": {
+    "nodes": {
+      "type": "object",
+      "required": ["sample", "site", "operator", "instrument", "software", "license"],
+      "properties": {
+
+        "sample": {
+          "type": "object",
+          "required": ["igsn_id", "type", "material"],
+          "properties": {
+            "igsn_id": {
+              "type": ["string", "null"],
+              "description": "External registry ID (International Generic Sample Number). Not extractable from scanner logs."
+            },
+            "sample_id": {
+              "type": ["string", "null"],
+              "description": "Sample name as logged by the scanner."
+            },
+            "other_sample_id": {
+              "type": ["string", "null"],
+              "description": "Alternate naming convention, if any. Not present in scanner logs."
+            },
+            "availability": {
+              "type": ["string", "null"],
+              "description": "IGSN public/private flag. Not a scanner concept."
+            },
+            "parent_sample": {
+              "type": ["string", "null"],
+              "description": "Sub-sampling lineage. Not logged; requires a sample registry."
+            },
+            "origin_site_link": {
+              "type": ["string", "null"],
+              "description": "Link to the Site node. No geographic field exists in CT logs."
+            },
+            "type": {
+              "type": ["string", "null"],
+              "description": "Formal sample type classification (e.g. core, thin section). Scanner logs a free-text name, not a type."
+            },
+            "dimensions": {
+              "type": ["object", "null"],
+              "description": "Physical sample dimension, with unit and which measurement it represents.",
+              "properties": {
+                "value": {"type": ["string", "number", "null"]},
+                "unit": {"type": ["string", "null"]},
+                "dimension_type": {"type": ["string", "null"]}
+              },
+              "additionalProperties": false
+            },
+            "material": {
+              "type": ["string", "null"],
+              "description": "Material classification (e.g. rock, mineral). Scanner logs a rock name, not a classification."
+            },
+            "intrinsic_descriptors": {
+              "type": ["string", "null"],
+              "description": "Controlled-list classification specific to rock/mineral/bio samples. Not present."
+            },
+            "description": {
+              "type": ["string", "null"],
+              "description": "Free-text comment field, if filled in by the operator."
+            },
+            "processing_link": {
+              "type": ["string", "null"],
+              "description": "Self-link to processing steps undergone by the sample. Not present."
+            }
+          },
+          "additionalProperties": false
+        },
+
+        "site": {
+          "type": "object",
+          "properties": {
+            "latitude": {"type": ["number", "null"], "description": "Not extractable from scanner logs."},
+            "longitude": {"type": ["number", "null"], "description": "Not extractable from scanner logs."},
+            "coordinate_system": {"type": ["string", "null"], "description": "e.g. WGS84."},
+            "vertical_datum": {"type": ["string", "null"], "description": "Reference datum for elevation."},
+            "location": {"type": ["string", "null"], "description": "Geographic name of sampling location."},
+            "country": {"type": ["string", "null"], "description": "Country of sample origin."}
+          },
+          "additionalProperties": false
+        },
+
+        "operator": {
+          "type": "object",
+          "required": ["name", "email"],
+          "properties": {
+            "person_id": {"type": ["string", "null"], "description": "Formal identifier. Not extractable from scanner logs."},
+            "name": {"type": ["string", "null"], "description": "Responsible person's name (from 'Owner', not 'Operator' login)."},
+            "operator_login": {"type": ["string", "null"], "description": "Login account that ran the scan. Bonus field, not official EXCITE2 spec."},
+            "email": {"type": ["string", "null"], "description": "Contact email. Never present in scanner logs."}
+          },
+          "additionalProperties": false
+        },
+
+        "instrument": {
+          "type": "object",
+          "required": ["instrument_id", "instrument_type"],
+          "properties": {
+            "instrument_id": {"type": ["string", "null"], "description": "Formal registry ID. Not extractable from scanner logs."},
+            "instrument_type": {"type": ["string", "null"], "description": "Always 'X-ray CT scanner' for this pipeline."},
+            "manufacturer": {"type": ["string", "null"], "description": "Not present in scanner logs."},
+            "instrument_model": {"type": ["string", "null"], "description": "e.g. 'UniTOM XL'."},
+            "serial": {"type": ["string", "null"], "description": "Instrument serial number."},
+            "mode": {"type": ["string", "null"], "description": "Scanning geometry mode (e.g. 'Cone beam')."}
+          },
+          "additionalProperties": false
+        },
+
+        "software": {
+          "type": "object",
+          "required": ["software_id", "software_category"],
+          "properties": {
+            "software_id": {"type": ["string", "null"], "description": "Unique identifier. Not extractable from scanner logs."},
+            "software_category": {"type": ["string", "null"], "description": "e.g. acquisition software. Not present."},
+            "distributor": {"type": ["string", "null"], "description": "Not present."},
+            "name": {"type": ["string", "null"], "description": "Only visible inside a raw key's own name, not extractable from any value."},
+            "version": {"type": ["string", "null"], "description": "Software version string."}
+          },
+          "additionalProperties": false
+        },
+
+        "license": {
+          "type": "object",
+          "required": ["license_type"],
+          "properties": {
+            "license_type": {"type": ["string", "null"], "description": "e.g. CC-BY-4.0. Never present in acquisition-time files."}
+          },
+          "additionalProperties": false
+        }
+
+      },
+      "additionalProperties": false
+    },
+
+    "edges": {
+      "type": "object",
+      "required": ["sampling", "sample_processing", "measuring"],
+      "properties": {
+
+        "sampling": {
+          "type": "object",
+          "required": ["technique"],
+          "properties": {
+            "technique": {"type": ["string", "null"], "description": "How the sample was physically collected. Happens before CT scanning; not in scanner logs."},
+            "instrument": {"type": ["string", "null"], "description": "Field-collection tool, not the CT scanner."},
+            "parameters": {"type": ["object", "string", "null"], "description": "Not present in scanner logs."},
+            "operator": {"type": ["string", "null"], "description": "Not present in scanner logs."},
+            "date_time": {"type": ["string", "null"], "description": "Not present in scanner logs."},
+            "observations": {"type": ["string", "null"], "description": "Not present in scanner logs."}
+          },
+          "additionalProperties": false
+        },
+
+        "sample_processing": {
+          "type": "object",
+          "required": ["technique"],
+          "properties": {
+            "technique": {"type": ["string", "null"], "description": "Cutting/polishing/mounting prep, done before scanning; not in scanner logs."},
+            "instrument": {"type": ["string", "null"], "description": "Not present in scanner logs."},
+            "parameters": {"type": ["object", "string", "null"], "description": "Not present in scanner logs."},
+            "operator": {"type": ["string", "null"], "description": "Not present in scanner logs."},
+            "date_time": {"type": ["string", "null"], "description": "Not present in scanner logs."},
+            "observations": {"type": ["string", "null"], "description": "Not present in scanner logs."}
+          },
+          "additionalProperties": false
+        },
+
+        "measuring": {
+          "type": "object",
+          "required": ["technique", "facility"],
+          "properties": {
+            "technique": {"type": ["string", "null"], "description": "Always 'X-ray computed tomography' for this pipeline."},
+            "instrument": {"type": ["string", "null"], "description": "Same source as instrument.instrument_model."},
+            "parameters": {
+              "type": ["object", "null"],
+              "description": "The CT acquisition parameters block (kV, current, voxel size, exposure, distances, reconstruction...). Reuses the same structure validated by excite_ct_schema_v1.json's conceptual_metadata."
+            },
+            "operator": {"type": ["string", "null"], "description": "Login that ran the scan (value quality: technically present but low quality, e.g. 'admin')."},
+            "date_time": {"type": ["string", "null"], "description": "Scan start/stop timestamp."},
+            "facility": {"type": ["string", "null"], "description": "Facility proxy, from the 'Project' field."}
+          },
+          "additionalProperties": false
+        }
+
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

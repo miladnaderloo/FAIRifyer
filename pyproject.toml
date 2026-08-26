@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fairify"
+version = "0.1.0"
+description = "AI-assisted metadata extractor for CT/imaging datasets (EXCITE schema)"
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = [
+    "jsonschema>=4.0",
+]
+
+[project.optional-dependencies]
+ai = [
+    "sentence-transformers>=2.2",
+    "numpy>=1.24",
+]
+
+[project.scripts]
+fairify = "fairify.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fairify*"]

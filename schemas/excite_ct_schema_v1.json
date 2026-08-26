@@ -1,0 +1,426 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.org/excite/schemas/excite_ct_schema_v1.json",
+  "title": "EXCITE CT Imaging Dataset Metadata Schema v1.0",
+  "description": "Validates the conceptual_metadata block produced by the FAIRifyer pipeline against the EXCITE X-Ray imaging metadata standard (Table 4, Deliverable D6.4).",
+  "type": "object",
+  "required": [
+    "sample_positioning",
+    "optical_magnification",
+    "energy",
+    "power",
+    "current",
+    "exposure_time",
+    "total_num_projections",
+    "total_scan_time",
+    "voxel_size",
+    "reconstruction"
+  ],
+  "properties": {
+    "sample_positioning": {
+      "description": "Geometric distances between source, object and detector.",
+      "type": "object",
+      "required": [
+        "source_object_distance",
+        "source_detector_distance"
+      ],
+      "properties": {
+        "source_object_distance": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Distance from X-ray source to object (SOD).",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 1.0,
+              "maximum": 2000.0
+            },
+            "unit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false
+        },
+        "object_detector_distance": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Distance from object to detector (ODD).",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 2000.0
+            },
+            "unit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false
+        },
+        "source_detector_distance": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Total source-to-detector distance (SDD).",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 50.0,
+              "maximum": 4000.0
+            },
+            "unit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "optical_magnification": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Geometric or optical magnification factor.",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 100.0
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "energy": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Tube voltage in kV.",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 10.0,
+          "maximum": 600.0
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "power": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Tube power in W.",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 1000.0
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "current": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Tube current in uA.",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 1.0,
+          "maximum": 2000000.0
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "exposure_time": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Exposure time per projection in s.",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 600.0
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "voxel_size": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Effective voxel/pixel size in um.",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0.01,
+          "maximum": 5000.0
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "total_num_projections": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Total number of projection images.",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "total_scan_time": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Total scan duration in s.",
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 86400.0
+        },
+        "unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "aperture_filter": {
+      "description": "Aperture filter description. Optional.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scanning_mode": {
+      "description": "Scanning mode string from vendor software. Optional.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "image_size": {
+      "description": "Detector image dimensions. Optional.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "width": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Detector width in px.",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 16384
+            },
+            "unit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false
+        },
+        "height": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Detector height in px.",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 16384
+            },
+            "unit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "reconstruction": {
+      "description": "Reconstruction parameters block.",
+      "type": "object",
+      "required": [
+        "grey_level"
+      ],
+      "properties": {
+        "algorithm": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Reconstruction algorithm."
+        },
+        "filter": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Reconstruction filter name."
+        },
+        "center_shift": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Centre-of-rotation shift in px.",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": -2000.0,
+              "maximum": 2000.0
+            },
+            "unit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false
+        },
+        "beam_hardening_algorithm": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "BHC algorithm description."
+        },
+        "rotation_angle": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "Offset rotation angle in degrees.",
+          "properties": {
+            "value": {
+              "type": "number",
+              "minimum": -360.0,
+              "maximum": 360.0
+            },
+            "unit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false
+        },
+        "grey_level": {
+          "type": [
+            "string",
+            "number",
+            "null"
+          ],
+          "description": "Grey-level scaling. Required."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+title: FAIRifyer
+message: If you use this software, please cite it using these metadata.
+type: software
+authors:
+  - given-names: Milad
+    family-names: Naderloo
+    email: milad.naderloo.x@gmail.com
+    affiliation: Delft University of Technology
+    orcid: "https://orcid.org/PUT-YOUR-ORCID-HERE"
+repository-code: "https://github.com/miladnaderloo/FAIRifyer"
+url: "https://github.com/miladnaderloo/FAIRifyer"
+abstract: >-
+  FAIRifyer turns raw X-ray CT acquisition output into FAIR metadata without
+  manual re-entry. It harvests key/value pairs from vendor log files, maps
+  vendor vocabularies onto a canonical schema using a curated synonym table
+  with a sentence-transformer fallback for unseen keys, normalises units,
+  validates against a versioned JSON Schema, and emits both a machine-readable
+  record and a deposit-ready README. Developed for the EXCITE2 imaging
+  infrastructure.
+keywords:
+  - FAIR
+  - research data management
+  - metadata
+  - X-ray computed tomography
+  - imaging
+  - open science
+  - EXCITE2
+  - schema.org
+license: Apache-2.0
+version: 0.1.0
+date-released: "2026-08-26"
